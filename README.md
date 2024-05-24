@@ -8,7 +8,7 @@ ceci est un essai
 ![alt text](secret.png)
 # FastAPI Application
 
-![Docker Build and Push](https://github.com/<username>/<repository>/actions/workflows/docker-deploy.yml/badge.svg)
+![Docker Build and Push](https://github.com/<mariamadieng>/<my-docker_project>/actions/workflows/docker-deploy.yml/badge.svg)
 
 ## Description
 
