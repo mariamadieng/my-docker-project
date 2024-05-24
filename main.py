@@ -1,29 +1,36 @@
-from fastapi import FastAPI, HTTPException
 import os
+from fastapi import FastAPI, HTTPException
+from dotenv import load_dotenv
 import requests
+
+# Charger les variables d'environnement depuis le fichier .env
+load_dotenv()
+
+# Récupérer le jeton API depuis les variables d'environnement
+GROQ_API_TOKEN = os.getenv('GROQ_API_TOKEN')
+
+if not GROQ_API_TOKEN:
+    raise ValueError("Le jeton API Grog n'est pas défini. Vérifiez votre fichier .env.")
 
 app = FastAPI()
 
-GROQ_API_URL = "https://console.groq.com/keys"  # Remplacez par l'URL de l'API Groq réelle
-
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the Groq API tester"}
+    return {"message": "Hello World"}
 
-@app.get("/test-groq-api")
-def test_groq_api():
-    token = os.getenv("GROQ_API_TOKEN")
-    if not token:
-        raise HTTPException(status_code=500, detail="GROQ_API_TOKEN not found in environment variables")
-
-    headers = {"Authorization": f"Bearer {token}"}
-    response = requests.get(GROQ_API_URL, headers=headers)
+@app.get("/grog-data")
+def get_grog_data():
+    url = "https://console.groq.com/keys"  # Remplacez par l'URL réelle de l'API Grog
+    headers = {
+        "Authorization": f"Bearer {GROQ_API_TOKEN}"
+    }
+    response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        raise HTTPException(status_code=response.status_code, detail="Failed to fetch data from Groq API")
+        raise HTTPException(status_code=response.status_code, detail="Erreur lors de l'appel à l'API Grog")
 
     return response.json()
-     
-    if __name__ == "__main__":
+
+if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
