@@ -23,3 +23,7 @@ def test_groq_api():
         raise HTTPException(status_code=response.status_code, detail="Failed to fetch data from Groq API")
 
     return response.json()
+     
+    if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
